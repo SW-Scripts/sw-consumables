@@ -2,9 +2,8 @@ Locale = {}
 Config = {
 
 	Debug = false,
+	ProgressBar = 'ox',									-- 'qb' (progressbar) | 'ox' (ox_lib)
 	Language = 'en',
-	Animations = 'rpemotes',							-- Add more in shared.lua
-	ProgressBar = 'ox',									-- 'qb' (progressbar) || 'ox' (ox_lib)
 
 	Food = {
 		{ name = '040burger', hunger = { 50, 70 }, thirst = { 0, 0 }, stress = { 2, 4 }, emoteName = 'burger', enableEmote = true },

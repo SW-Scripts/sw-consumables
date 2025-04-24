@@ -37,10 +37,10 @@ end
 
 RegisterNetEvent('sw-consumables:client:Eat', function(itemName, item)
 	if Config.Food[item].enableEmote then
-		TriggerEvent('sw-consumables:shared:startEmote', Config.Food[item].emoteName)
+		exports.sw_lib:StartEmote(Config.Food[item].emoteName)
 	end
 	if Config.ProgressBar == 'qb' then
-		QBCore.Functions.Progressbar('eat_item', Locale[Config.Language].info['eating']..QBCore.Shared.Items[itemName].label, 12000, false, true, {
+		QBCore.Functions.Progressbar('eat_item', Locale[Config.Language].info['eating']..exports.sw_lib:GetItemLabel(itemName), 12000, false, true, {
 			disableMovement = false,
 			disableCarMovement = false,
 			disableMouse = false,
@@ -51,16 +51,16 @@ RegisterNetEvent('sw-consumables:client:Eat', function(itemName, item)
 			TriggerServerEvent('QBCore:Server:SetMetaData', 'hunger', QBCore.Functions.GetPlayerData().metadata['hunger'] + math.random(Config.Food[item].hunger[1], Config.Food[item].hunger[2]))
 			TriggerServerEvent('QBCore:Server:SetMetaData', 'thirst', QBCore.Functions.GetPlayerData().metadata['thirst'] + math.random(Config.Food[item].thirst[1], Config.Food[item].thirst[2]))
 			TriggerServerEvent('hud:server:RelieveStress', math.random(Config.Food[item].stress[1], Config.Food[item].stress[2]))
-			TriggerEvent('sw-consumables:shared:cancelEmote')
+			exports.sw_lib:CancelEmote()
 		end, function() -- Cancel
 			ClearPedTasks(PlayerPedId())
-			TriggerEvent('sw-consumables:shared:cancelEmote')
-			QBCore.Functions.Notify(Locale[Config.Language].error['stop_eating'], 'error')
+			exports.sw_lib:CancelEmote()
+			TriggerEvent('sw_lib:client:Notify', Locale[Config.Language].error['stop_eating'], 'error')
 		end, itemName)
 	elseif Config.ProgressBar == 'ox' then
 		if lib.progressActive() then return false end
 		if lib.progressCircle({
-			label = Locale[Config.Language].info['eating']..QBCore.Shared.Items[itemName].label,
+			label = Locale[Config.Language].info['eating']..exports.sw_lib:GetItemLabel(itemName),
 			duration = 12000,
 			position = 'bottom',
 			useWhileDead = false,
@@ -81,21 +81,21 @@ RegisterNetEvent('sw-consumables:client:Eat', function(itemName, item)
 			TriggerServerEvent('QBCore:Server:SetMetaData', 'hunger', QBCore.Functions.GetPlayerData().metadata['hunger'] + math.random(Config.Food[item].hunger[1], Config.Food[item].hunger[2]))
 			TriggerServerEvent('QBCore:Server:SetMetaData', 'thirst', QBCore.Functions.GetPlayerData().metadata['thirst'] + math.random(Config.Food[item].thirst[1], Config.Food[item].thirst[2]))
 			TriggerServerEvent('hud:server:RelieveStress', math.random(Config.Food[item].stress[1], Config.Food[item].stress[2]))
-			TriggerEvent('sw-consumables:shared:cancelEmote')
+			exports.sw_lib:CancelEmote()
 		else
 			ClearPedTasks(PlayerPedId())
-			TriggerEvent('sw-consumables:shared:cancelEmote')
-			QBCore.Functions.Notify(Locale[Config.Language].error['stop_eating'], 'error')
+			exports.sw_lib:CancelEmote()
+			TriggerEvent('sw_lib:client:Notify', Locale[Config.Language].error['stop_eating'], 'error')
 		end
 	end
 end)
 
 RegisterNetEvent('sw-consumables:client:Drink', function(itemName, item)
 	if Config.Drinks[item].enableEmote then
-		TriggerEvent('sw-consumables:shared:startEmote', Config.Drinks[item].emoteName)
+		exports.sw_lib:StartEmote(Config.Drinks[item].emoteName)
 	end
 	if Config.ProgressBar == 'qb' then
-		QBCore.Functions.Progressbar('drink_item', Locale[Config.Language].info['drinking']..QBCore.Shared.Items[itemName].label, 12000, false, true, {
+		QBCore.Functions.Progressbar('drink_item', Locale[Config.Language].info['drinking']..exports.sw_lib:GetItemLabel(itemName), 12000, false, true, {
 			disableMovement = false,
 			disableCarMovement = false,
 			disableMouse = false,
@@ -106,16 +106,16 @@ RegisterNetEvent('sw-consumables:client:Drink', function(itemName, item)
 			TriggerServerEvent('QBCore:Server:SetMetaData', 'hunger', QBCore.Functions.GetPlayerData().metadata['hunger'] + math.random(Config.Drinks[item].hunger[1], Config.Drinks[item].hunger[2]))
 			TriggerServerEvent('QBCore:Server:SetMetaData', 'thirst', QBCore.Functions.GetPlayerData().metadata['thirst'] + math.random(Config.Drinks[item].thirst[1], Config.Drinks[item].thirst[2]))
 			TriggerServerEvent('hud:server:RelieveStress', math.random(Config.Drinks[item].stress[1], Config.Drinks[item].stress[2]))
-			TriggerEvent('sw-consumables:shared:cancelEmote')
+			exports.sw_lib:CancelEmote()
 		end, function() -- Cancel
 			ClearPedTasks(PlayerPedId())
-			TriggerEvent('sw-consumables:shared:cancelEmote')
-			QBCore.Functions.Notify(Locale[Config.Language].error['stop_drinking'], 'error')
+			exports.sw_lib:CancelEmote()
+			TriggerEvent('sw_lib:client:Notify', Locale[Config.Language].error['stop_drinking'], 'error')
 		end, itemName)
 	elseif Config.ProgressBar == 'ox' then
 		if lib.progressActive() then return false end
 		if lib.progressCircle({
-			label = Locale[Config.Language].info['drinking']..QBCore.Shared.Items[itemName].label,
+			label = Locale[Config.Language].info['drinking']..exports.sw_lib:GetItemLabel(itemName),
 			duration = 12000,
 			position = 'bottom',
 			useWhileDead = false,
@@ -136,21 +136,21 @@ RegisterNetEvent('sw-consumables:client:Drink', function(itemName, item)
 			TriggerServerEvent('QBCore:Server:SetMetaData', 'hunger', QBCore.Functions.GetPlayerData().metadata['hunger'] + math.random(Config.Drinks[item].hunger[1], Config.Drinks[item].hunger[2]))
 			TriggerServerEvent('QBCore:Server:SetMetaData', 'thirst', QBCore.Functions.GetPlayerData().metadata['thirst'] + math.random(Config.Drinks[item].thirst[1], Config.Drinks[item].thirst[2]))
 			TriggerServerEvent('hud:server:RelieveStress', math.random(Config.Drinks[item].stress[1], Config.Drinks[item].stress[2]))
-			TriggerEvent('sw-consumables:shared:cancelEmote')
+			exports.sw_lib:CancelEmote()
 		else
 			ClearPedTasks(PlayerPedId())
-			TriggerEvent('sw-consumables:shared:cancelEmote')
-			QBCore.Functions.Notify(Locale[Config.Language].error['stop_drinking'], 'error')
+			exports.sw_lib:CancelEmote()
+			TriggerEvent('sw_lib:client:Notify', Locale[Config.Language].error['stop_drinking'], 'error')
 		end
 	end
 end)
 
 RegisterNetEvent('sw-consumables:client:Alcohol', function(itemName, item)
 	if Config.Alcohol[item].enableEmote then
-		TriggerEvent('sw-consumables:shared:startEmote', Config.Alcohol[item].emoteName)
+		exports.sw_lib:StartEmote(Config.Alcohol[item].emoteName)
 	end
 	if Config.ProgressBar == 'qb' then
-		QBCore.Functions.Progressbar('drink_alcohol_item', Locale[Config.Language].info['drinking']..QBCore.Shared.Items[itemName].label, 12000, false, true, {
+		QBCore.Functions.Progressbar('drink_alcohol_item', Locale[Config.Language].info['drinking']..exports.sw_lib:GetItemLabel(itemName), 12000, false, true, {
 			disableMovement = false,
 			disableCarMovement = false,
 			disableMouse = false,
@@ -169,16 +169,16 @@ RegisterNetEvent('sw-consumables:client:Alcohol', function(itemName, item)
 				TriggerEvent('evidence:client:SetStatus', 'heavyalcohol', 2000)
 				StrongAlcoholEffect()
 			end
-			TriggerEvent('sw-consumables:shared:cancelEmote')
+			exports.sw_lib:CancelEmote()
 		end, function() -- Cancel
 			ClearPedTasks(PlayerPedId())
-			TriggerEvent('sw-consumables:shared:cancelEmote')
-			QBCore.Functions.Notify(Locale[Config.Language].error['stop_drinking'], 'error')
+			exports.sw_lib:CancelEmote()
+			TriggerEvent('sw_lib:client:Notify', Locale[Config.Language].error['stop_drinking'], 'error')
 		end, itemName)
 	elseif Config.ProgressBar == 'ox' then
 		if lib.progressActive() then return false end
 		if lib.progressCircle({
-			label = Locale[Config.Language].info['drinking']..QBCore.Shared.Items[itemName].label,
+			label = Locale[Config.Language].info['drinking']..exports.sw_lib:GetItemLabel(itemName),
 			duration = 12000,
 			position = 'bottom',
 			useWhileDead = false,
@@ -207,11 +207,11 @@ RegisterNetEvent('sw-consumables:client:Alcohol', function(itemName, item)
 				TriggerEvent('evidence:client:SetStatus', 'heavyalcohol', 2000)
 				StrongAlcoholEffect()
 			end
-			TriggerEvent('sw-consumables:shared:cancelEmote')
+			exports.sw_lib:CancelEmote()
 		else
 			ClearPedTasks(PlayerPedId())
-			TriggerEvent('sw-consumables:shared:cancelEmote')
-			QBCore.Functions.Notify(Locale[Config.Language].error['stop_drinking'], 'error')
+			exports.sw_lib:CancelEmote()
+			TriggerEvent('sw_lib:client:Notify', Locale[Config.Language].error['stop_drinking'], 'error')
 		end
 	end
 end)

@@ -3,8 +3,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 RegisterNetEvent('sw-consumables:server:removeItem', function(item, amount)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(source)
-	Player.Functions.RemoveItem(item, amount)
-	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], 'remove', amount)
+	exports.sw_lib:RemoveItem(src, item, amount)
 end)
 
 CreateThread(function()
@@ -23,6 +22,26 @@ CreateThread(function()
 			TriggerClientEvent('sw-consumables:client:Alcohol', source, item.name, alcohol)
 		end)
 	end
+end)
+
+-- Duplication Detection
+
+local expectedResource = 'sw-consumables'
+local currentResource = GetCurrentResourceName()
+
+local function DetectDuplicates()
+	if currentResource ~= expectedResource then
+		Wait(4000)
+		TriggerEvent('sw-consumables:server:stopDuplicate', currentResource)
+	end
+end
+
+DetectDuplicates()
+
+RegisterNetEvent(currentResource..':server:stopDuplicate', function(resource)
+	Wait(1000)
+	print(('^1[ERROR]^7 This script has been modified, please ensure it is named "%s"'):format(expectedResource))
+	StopResource(resource)
 end)
 
 -- Check Version
